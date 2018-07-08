@@ -1,4 +1,6 @@
 export default {
     author: 'Young',
-    company: 'OYOUNG'
+    company: 'OYOUNG',
+    currentTab: "",
+    tabs: [],
 }

@@ -6,18 +6,14 @@
         <h3>底部被点击次数：{{ sonClickedTimes }}</h3>
         
         <TestPlugin/>
-
-        <GlobalFooter :year="year" @sonSay="listenToSon"/>
     </div>
 </template>
 
 <script>
-    import GlobalFooter from '@/components/GlobalFooter'
     import TestPlugin from '@/components/TestPlugin'
 
     export default {
         components: {
-            GlobalFooter,
             TestPlugin
         },
         data() {

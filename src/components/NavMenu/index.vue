@@ -1,55 +1,162 @@
 <template>
-    <el-menu
-      default-active="2"
-      class="el-menu-vertical-demo"
-      @open="handleOpen"
-      @close="handleClose"
-      background-color="#545c64"
-      text-color="#fff"
-      active-text-color="#ffd04b">
-      <el-submenu index="1">
-        <template slot="title">
-          <i class="el-icon-location"></i>
-          <span>导航一</span>
-        </template>
-        <el-menu-item-group>
-          <template slot="title">分组一</template>
-          <el-menu-item index="1-1">选项1</el-menu-item>
-          <el-menu-item index="1-2">选项2</el-menu-item>
-        </el-menu-item-group>
-        <el-menu-item-group title="分组2">
-          <el-menu-item index="1-3">选项3</el-menu-item>
-        </el-menu-item-group>
-        <el-submenu index="1-4">
-          <template slot="title">选项4</template>
-          <el-menu-item index="1-4-1">选项1</el-menu-item>
-        </el-submenu>
-      </el-submenu>
-      <el-menu-item index="2">
-        <i class="el-icon-menu"></i>
-        <span slot="title">导航二</span>
-      </el-menu-item>
-      <el-menu-item index="3" disabled>
-        <i class="el-icon-document"></i>
-        <span slot="title">导航三</span>
-      </el-menu-item>
-      <el-menu-item index="4">
-        <i class="el-icon-setting"></i>
-        <span slot="title">导航四</span>
-      </el-menu-item>
+  <div>
+    <div style="margin-left: 10px">
+      <el-button icon="el-icon-tickets" color="#2a4e8a" size="mini" @click="expendNav">
+      </el-button>
+    </div>
+
+    <el-menu default-active="2" class="el-menu-vertical-demo" @select="openMenu" :collapse="isCollapse" background-color="#2a4e8a" text-color="#fff" active-text-color="#ffd04b">
+      <TreeMenu v-for="item in menu" :data="item" :key="item.index" />
     </el-menu>
+  </div>
+
 </template>
 
+
+
+
 <script>
-  export default {
-    name: 'NavMenu',
-    data() {
-      return {
-      };
+import * as types from "@/store/mutation-types";
+import TreeMenu from "@/components/TreeMenu";
+
+export default {
+  name: "NavMenu",
+  components: {
+    TreeMenu
+  },
+  data() {
+    return {
+      menu: [
+        {
+          index: "1",
+          title: "导航1",
+          icon: "iconfont icon-wodedamaijihuo",
+          children: [
+            {
+              index: "1-1",
+              title: "导航1-1",
+              icon: "el-icon-location",
+              route: "/user/details/2"
+            },
+            {
+              index: "1-2",
+              title: "导航1-2",
+              icon: "el-icon-location",
+              children: [
+                {
+                  index: "1-2-1",
+                  title: "导航1-2-1",
+                  icon: "el-icon-location",
+                  children: [
+                    {
+                      index: "1-2-1-1",
+                      title: "导航1-2-1-1",
+                      icon: "el-icon-location",
+                      children: [
+                        {
+                          index: "1-2-1-1-1",
+                          title: "导航1-2-1-1-1",
+                          icon: "el-icon-location",
+                          children: [
+                            {
+                              index: "1-2-1-1-1-1",
+                              title: "导航1-2-1-1-1-1",
+                              icon: "el-icon-location",
+                              children: [
+                                {
+                                  index: "1-2-1-1-1-1-1",
+                                  title: "导航1-2-1-1-1-1-1",
+                                  icon: "el-icon-location",
+                                  children: [
+                                    {
+                                      index: "1-2-1-1-1-1-1-1",
+                                      title: "导航1-2-1-1-1-1-1-1",
+                                      icon: "el-icon-location"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              index: "1-3",
+              title: "导航1-3",
+              icon: "el-icon-location"
+            }
+          ]
+        },
+        {
+          index: "2",
+          title: "导航2",
+          icon: "el-icon-location",
+          children: [
+            {
+              index: "2-1",
+              title: "导航2-1",
+              icon: "el-icon-location",
+              route: "/about"
+            }
+          ]
+        }
+      ],
+      isCollapse: true,
+      collapseText: "展开",
+      menuMap: new Map()
+    };
+  },
+  created: function() {
+    this.getMenuMap(this.menu);
+  },
+  watch: {
+    isCollapse: function(val) {
+      if (val) {
+        this.collapseText = "展开";
+        document
+          .getElementsByClassName("el-aside")[0]
+          .setAttribute("style", "width: auto !important");
+      } else {
+        this.collapseText = "收起";
+        document
+          .getElementsByClassName("el-aside")[0]
+          .setAttribute("style", "width: 200px !important");
+      }
+    }
+  },
+  methods: {
+    expendNav() {
+      this.isCollapse = !this.isCollapse;
     },
-    methods: {
-      
+    getMenuMap(items) {
+      items.forEach(item => {
+        if (item.children) {
+          this.getMenuMap(item.children);
+        } else {
+          this.menuMap.set(item.index, item);
+        }
+      });
+    },
+    openMenu(index, path) {
+      let menu = this.menuMap.get(index);
+      this.$store.commit(types.ADD_TAB, {
+        title: menu.title,
+        name: menu.title,
+        route: menu.route
+      });
+
+      console.log(this.$store)
     }
   }
+};
 </script>
+
+<style lang="scss" >
+  @import "index"
+</style>
 
