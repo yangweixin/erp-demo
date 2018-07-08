@@ -8,6 +8,13 @@
     <el-menu default-active="2" class="el-menu-vertical-demo" @select="openMenu" :collapse="isCollapse" background-color="#2a4e8a" text-color="#fff" active-text-color="#ffd04b">
       <TreeMenu v-for="item in menu" :data="item" :key="item.index" />
     </el-menu>
+    <el-tooltip class="item" effect="dark" placement="right-start">
+      <template slot="content">
+        Young技术支持<br>电话：12345678901 <br>邮箱：1234567@qq.com
+      </template>
+      <i class="iconfont icon-tishishuoming author-info"/>
+    </el-tooltip>
+    
   </div>
 
 </template>

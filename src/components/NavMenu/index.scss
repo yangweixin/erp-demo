@@ -6,3 +6,13 @@
     padding-right: 8px !important;
     padding-left: 3px !important;
   }
+  .author-info{
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    color: #909399;
+  }
+
+  .author-info:hover{
+    cursor: help
+  }

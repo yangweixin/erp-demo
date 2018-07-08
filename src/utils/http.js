@@ -3,7 +3,7 @@ import axios from 'axios'
 // 请求前拦截器
 axios.interceptors.request.use( config => {
   console.log('before request')
-  
+
   return config
 }, error => {
   console.log('ERROR: before request')

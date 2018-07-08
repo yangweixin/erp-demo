@@ -11,6 +11,20 @@ Vue.config.productionTip = false;
 Vue.prototype.$http = HTTP;
 Vue.use(ElementUI);
 
+router.beforeEach(
+  (to, from, next) => {
+    if(!!localStorage.token || (!localStorage.token && to.path === "/login"))
+      next()
+    else{
+      next({
+        path:"/login",
+        query: {redirect: to.fullPath}//将目的路由地址存入login的query中
+      })
+    }
+  }
+  
+)
+
 new Vue({
   router,
   store,
